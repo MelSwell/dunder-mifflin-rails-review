@@ -7,14 +7,24 @@ class EmployeesController < ApplicationController
     @employee = Employee.find(params[:id])
   end
 
-  def create
-  @x = Employee.create(params.require(:employee).permit(:first_name, :last_name, :alias, :title, :office, :img_url))
+  def new
+    @new_employee = Employee.new
+    @dogs = Dog.all
+  end 
   
-  redirect_to employee_path(@x)
+  def create
+    @new_employee = Employee.create(params.require(:employee).permit(:first_name, :last_name, :alias, :title, :office, :img_url, :dog_id))
+    redirect_to employee_path(@new_employee)
   end
 
-  def new
-    @new_employee=Employee.new
-  end 
+  def edit
+    @employee = Employee.find(params[:id])
+    @dogs = Dog.all
+  end
 
+  def update
+    @employee = Employee.find(params[:id])
+    @employee.update(params.require(:employee).permit(:first_name, :last_name, :alias, :title, :office, :img_url, :dog_id))
+    redirect_to employee_path(@employee)
+  end
 end
